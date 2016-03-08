@@ -1,0 +1,55 @@
+<project name="java scanner" default="run">
+
+	<property name="CUPJar" value="E:\STS\workspace-git\jflexdemo\lib\java-cup-11a.jar">
+	</property>
+	<property name="JFlexJar" value="E:\STS\workspace-git\jflexdemo\lib\jflex-1.6.1.jar">
+	</property>
+	<!-- 定义新任务 cup,jflex -->
+	<taskdef name="cup" classname="java_cup.anttask.CUPTask" classpath="${CUPJar}" />
+	<taskdef name="jflex" classname="jflex.anttask.JFlexTask" classpath="${JFlexJar}" />
+
+	<target name="build" depends="realclean,compile" />
+
+	<target name="run" depends="compile">
+		<java classname="JavaParser">
+			<arg line="JavaParser.java"/>
+			<arg line="JavaSymbol.java"/>
+			<arg line="UnicodeEscapes.java"/>
+			<arg line="parser.java"/>
+			<arg line="sym.java"/>
+			<arg line="Scanner.java"/>
+		</java>
+	</target>
+
+	<target name="compile" depends="scanner,unicode,cup">
+		<javac srcdir="." destdir="." />
+	</target>
+
+	<target name="scanner">
+		<jflex file="java.flex"/>
+	</target>
+
+	<target name="unicode">
+		<jflex file="unicode.flex"/>
+	</target>
+
+	<target name="cup">
+		<cup srcfile="java12.cup" interface="yes" destdir="."/>
+	</target>
+
+	<target name="genclean">
+		<delete file="Scanner.java"/>
+		<delete file="UnicodeEscapes.java"/>
+		<delete file="sym.java" />
+		<delete file="parser.java" />
+	</target>
+
+	<target name="clean">
+		<delete>
+			<fileset dir="." includes="**/*~"/>
+			<fileset dir="." includes="**/*.class"/>
+		</delete>
+	</target>
+
+	<target name="realclean" depends="clean,genclean" />
+</project>

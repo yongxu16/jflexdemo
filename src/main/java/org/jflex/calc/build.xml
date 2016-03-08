@@ -1,0 +1,20 @@
+<project name="java scanner" default="scanner">
+
+	<property name="CUPJar" value="E:\STS\workspace-git\jflexdemo\lib\java-cup-11a.jar">
+	</property>
+	<property name="JFlexJar" value="E:\STS\workspace-git\jflexdemo\lib\jflex-1.6.1.jar">
+	</property>
+	<!-- 定义新任务 cup,jflex -->
+	<taskdef name="cup" classname="java_cup.anttask.CUPTask" classpath="${CUPJar}" />
+	<taskdef name="jflex" classname="jflex.anttask.JFlexTask" classpath="${JFlexJar}" />
+
+
+	<target name="scanner" depends="cup">
+		<jflex file="calc.flex"/>
+	</target>
+
+
+	<target name="cup">
+		<cup srcfile="calc.cup" interface="yes" destdir="."/>
+	</target>
+</project>
